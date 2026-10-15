@@ -1,22 +1,32 @@
 #Streamlit UI
 
 import pickle
+from pathlib import Path
+
 import pandas as pd
 import streamlit as st
 
-st.set_page_config(page_title="Customer Spending Prediction",page_icon="assets\logo.png")
+ROOT_DIR = Path(__file__).resolve().parent
+MODEL_PATH = ROOT_DIR / "best_model" / "best_model.pkl"
+DATA_PATH = ROOT_DIR / "datasets" / "data_cleaned.csv"
+LOGO_PATH = ROOT_DIR / "assets" / "logo.png"
 
-with open("best_model/best_model.pkl","rb") as file:
+st.set_page_config(
+    page_title="Customer Spending Prediction",
+    page_icon=str(LOGO_PATH),
+)
+
+with MODEL_PATH.open("rb") as file:
     best_pipeline = pickle.load(file)
 
 
 #load dataset
-df = pd.read_csv("datasets\data_cleaned.csv")
+df = pd.read_csv(DATA_PATH)
 
 
 with st.sidebar:
     st.title("Cutomer Spending Prediction")
-    st.image('assets\logo.png',width=200)
+    st.image(str(LOGO_PATH), width=200)
 
 
 
